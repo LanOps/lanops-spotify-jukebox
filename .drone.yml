@@ -44,7 +44,7 @@ steps:
   - name: build-push
     image: plugins/docker
     settings:
-      repo: th0rn0/lanops-spotify-jukebox-service
+      repo: lanopsdev/lanops-spotify-jukebox-service
       dockerfile: resources/docker/service/Dockerfile
       context: .
       platforms: linux/amd64,linux/arm64
@@ -63,7 +63,7 @@ steps:
   - name: build-push-release
     image: plugins/docker
     settings:
-      repo: th0rn0/lanops-spotify-jukebox-service
+      repo: lanopsdev/lanops-spotify-jukebox-service
       dockerfile: resources/docker/service/Dockerfile
       context: .
       platforms: linux/amd64,linux/arm64
@@ -81,7 +81,7 @@ steps:
   - name: build-pr
     image: plugins/docker
     settings:
-      repo: th0rn0/lanops-spotify-jukebox-service
+      repo: lanopsdev/lanops-spotify-jukebox-service
       dockerfile: resources/docker/service/Dockerfile
       context: .
       dry_run: true
@@ -161,7 +161,7 @@ steps:
       API_ENDPOINT:
         from_secret: api_endpoint
     settings:
-      repo: th0rn0/lanops-spotify-jukebox-ui
+      repo: lanopsdev/lanops-spotify-jukebox-ui
       dockerfile: resources/docker/ui/Dockerfile
       context: .
       platforms: linux/amd64,linux/arm64
@@ -185,7 +185,7 @@ steps:
       API_ENDPOINT:
         from_secret: api_endpoint
     settings:
-      repo: th0rn0/lanops-spotify-jukebox-ui
+      repo: lanopsdev/lanops-spotify-jukebox-ui
       dockerfile: resources/docker/ui/Dockerfile
       context: .
       platforms: linux/amd64,linux/arm64
@@ -208,7 +208,7 @@ steps:
       API_ENDPOINT:
         from_secret: api_endpoint
     settings:
-      repo: th0rn0/lanops-spotify-jukebox-ui
+      repo: lanopsdev/lanops-spotify-jukebox-ui
       dockerfile: resources/docker/ui/Dockerfile
       context: .
       dry_run: true

@@ -98,12 +98,12 @@ docker run -d \
   -e BANNED_TERMS_WORDS_FILE_LOCATION= \
   -p 8888:8888 \
   -v /mnt/servdata/lanops/jukebox/db:/db \
-  th0rn0/lanops-spotify-jukebox:service-latest
+  lanopsdev/lanops-spotify-jukebox:service-latest
 ```
 
 ```
   jukebox-service:
-    image: th0rn0/lanops-spotify-jukebox:service-latest
+    image: lanopsdev/lanops-spotify-jukebox:service-latest
     restart: unless-stopped
     environment:
       DB_PATH: /db/jukebox.db
@@ -155,12 +155,12 @@ docker run -d \
 docker run -d \
   --name jukebox-ui \
   --restart unless-stopped \
-  th0rn0/lanops-spotify-jukebox:ui-latest
+  lanopsdev/lanops-spotify-jukebox:ui-latest
 ```
 
 ```
   jukebox-ui:
-    image: th0rn0/lanops-spotify-jukebox:ui-latest
+    image: lanopsdev/lanops-spotify-jukebox:ui-latest
     restart: unless-stopped
     ports:
 ```
