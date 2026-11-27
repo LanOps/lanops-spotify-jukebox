@@ -24,7 +24,8 @@ Written in GO using the https://github.com/zmb3/spotify package. Refer to the po
 
 ### Prerequisites
 
-- Create Spotify App for Client and Secret Key. Make sure to set the callback url to the domain and have the callback path, for example ```http://localhost:8888/auth/callback```
+- Create Spotify App for Client and Secret Key. Register the callback url in the app's Redirect URIs with the callback path. Spotify requires HTTPS (for example ```https://jukebox.example.com/auth/callback```); plain HTTP is only allowed for a loopback IP such as ```http://127.0.0.1:9999/auth/callback```. `localhost` is **not** accepted by Spotify, and the service refuses to start if `API_AUTH_CALLBACK_URL` breaks these rules.
+    - Since March 2026, Development Mode apps only work while the app owner has Spotify Premium, and are limited to 5 users (add the jukebox's Spotify account under User Management).
     - https://developer.spotify.com/documentation/web-api/concepts/apps 
 - ```cp service/.env.example service/.env``` and fill it in
     - Fallback Playlist can be any playlist. Use the full URI. If you wish to add queued songs to the playlist make sure the account being used has the sufficient permissions to the playlist.

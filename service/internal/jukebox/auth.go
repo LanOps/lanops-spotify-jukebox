@@ -48,7 +48,8 @@ func (c *Client) hasAuthToken() bool {
 }
 
 func (c *Client) Login(token *oauth2.Token) error {
-	c.spotify.client = spotify.New(c.spotify.auth.Client(context.TODO(), token))
+	c.spotify.httpClient = c.spotify.auth.Client(context.TODO(), token)
+	c.spotify.client = spotify.New(c.spotify.httpClient)
 	if _, err := c.spotify.client.CurrentUser(context.TODO()); err != nil {
 		return err
 	}
