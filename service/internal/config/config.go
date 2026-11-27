@@ -68,6 +68,9 @@ func Load() Config {
 	if apiAuthCallbackUrl == "" {
 		log.Fatal("❌ API_AUTH_CALLBACK_URL not set in environment")
 	}
+	if err := ValidateAuthCallbackUrl(apiAuthCallbackUrl); err != nil {
+		log.Fatalf("❌ API_AUTH_CALLBACK_URL is not accepted by Spotify: %v", err)
+	}
 
 	return Config{
 		DbPath:          dbPath,

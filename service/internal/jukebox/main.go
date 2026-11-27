@@ -3,6 +3,7 @@ package jukebox
 import (
 	"errors"
 	"lanops/spotify-jukebox/internal/config"
+	"net/http"
 
 	"github.com/zmb3/spotify/v2"
 
@@ -34,9 +35,10 @@ type Client struct {
 }
 
 type SpotifyClient struct {
-	auth   *spotifyauth.Authenticator
-	client *spotify.Client
-	token  *oauth2.Token
+	auth       *spotifyauth.Authenticator
+	client     *spotify.Client
+	httpClient *http.Client
+	token      *oauth2.Token
 }
 
 func New(cfg config.Config, db *gorm.DB, log *zerolog.Logger) (Client, error) {

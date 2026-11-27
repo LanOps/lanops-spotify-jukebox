@@ -48,19 +48,23 @@ func (c *Client) getNext() (track Track, err error) {
 }
 
 func (c *Client) getNextFromFallbackPlaylist() (track Track, err error) {
-
-	fallBackPlaylist, err := c.spotify.client.GetPlaylistItems(context.Background(), c.fallbackPlaylistId)
+	fallBackTracks, err := c.getPlaylistTracks(context.Background(), c.fallbackPlaylistId)
 	if err != nil {
 		return track, err
 	}
-	randomOffset := rand.Intn(len(fallBackPlaylist.Items))
+	if len(fallBackTracks) == 0 {
+		return track, errors.New("fallback playlist is empty")
+	}
+	fullTrack := fallBackTracks[rand.Intn(len(fallBackTracks))]
 
-	track.Artist = fallBackPlaylist.Items[randomOffset].Track.Track.Artists[0].Name
-	track.Name = fallBackPlaylist.Items[randomOffset].Track.Track.Name
-	track.Id = fallBackPlaylist.Items[randomOffset].Track.Track.ID
+	if len(fullTrack.Artists) > 0 {
+		track.Artist = fullTrack.Artists[0].Name
+	}
+	track.Name = fullTrack.Name
+	track.Id = fullTrack.ID
 	track.FallbackPlaylist = true
 
-	for _, trackImage := range fallBackPlaylist.Items[randomOffset].Track.Track.Album.Images {
+	for _, trackImage := range fullTrack.Album.Images {
 		track.Images = append(track.Images, TrackImage{
 			Height: trackImage.Height,
 			Width:  trackImage.Width,
@@ -80,15 +84,10 @@ func (c *Client) getNextRandomFromQueue() (track Track, err error) {
 
 func (c *Client) addCurrentTrackToFallbackPlaylist() error {
 	// Can't check if song is already in playlist - so just delete it
-	_, err := c.spotify.client.RemoveTracksFromPlaylist(context.Background(), c.fallbackPlaylistId, spotify.ID(c.current.Id))
-	if err != nil {
+	if err := c.removeTrackFromPlaylist(context.Background(), c.fallbackPlaylistId, c.current.Id); err != nil {
 		return err
 	}
-	_, err = c.spotify.client.AddTracksToPlaylist(context.Background(), c.fallbackPlaylistId, c.current.Id)
-	if err != nil {
-		return err
-	}
-	return nil
+	return c.addTrackToPlaylist(context.Background(), c.fallbackPlaylistId, c.current.Id)
 }
 
 func (c *Client) deleteCurrentTrackFromQueue() error {
